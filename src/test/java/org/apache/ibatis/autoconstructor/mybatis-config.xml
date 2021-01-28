@@ -26,17 +26,23 @@
 
     <environments default="development">
         <environment id="development">
+            <!--配置事务管理-->
             <transactionManager type="JDBC">
                 <property name="" value=""/>
             </transactionManager>
             <dataSource type="UNPOOLED">
-                <property name="driver" value="org.hsqldb.jdbcDriver"/>
-                <property name="url" value="jdbc:hsqldb:mem:automapping"/>
-                <property name="username" value="sa"/>
+                <!--考虑到减少外部依赖，所以使用了 HSQLDB-->
+                <!--<property name="driver" value="org.hsqldb.jdbcDriver"/>
+                <property name="url" value="jdbc:hsqldb:mem:automapping"/>-->
+                <property name="driver" value="org.h2.Driver"/>
+                <!--<property name="url" value="jdbc:h2:D:/DataBase/h2/data/automapping"/>-->
+                <property name="url" value="jdbc:h2:tcp://localhost:9092/D:/DataBase/h2/data/automapping"/>
+                <property name="username" value="root"/>
             </dataSource>
         </environment>
     </environments>
 
+    <!--扫描mapper文件-->
     <mappers>
         <mapper resource="org/apache/ibatis/autoconstructor/AutoConstructorMapper.xml"/>
     </mappers>
