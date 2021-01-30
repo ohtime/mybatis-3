@@ -31,7 +31,7 @@
                 <property name="" value=""/>
             </transactionManager>
             <dataSource type="UNPOOLED">
-                <!--考虑到减少外部依赖，所以使用了 HSQLDB-->
+                <!--考虑到减少外部依赖，所以使用了HSQLDB-->
                 <!--<property name="driver" value="org.hsqldb.jdbcDriver"/>
                 <property name="url" value="jdbc:hsqldb:mem:automapping"/>-->
                 <property name="driver" value="org.h2.Driver"/>
