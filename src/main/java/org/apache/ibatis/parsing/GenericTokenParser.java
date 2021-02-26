@@ -17,6 +17,7 @@ package org.apache.ibatis.parsing;
 
 /**
  * @author Clinton Begin
+ * 通用的Token解析器
  */
 public class GenericTokenParser {
 
@@ -80,28 +81,40 @@ public class GenericTokenParser {
         // 寻找结束的 closeToken 的位置
         int end = text.indexOf(closeToken, offset);
         while (end > -1) {
-          //
+          // 转义
           if (end > offset && src[end - 1] == '\\') {
             // this close token is escaped. remove the backslash and continue.
+            // 因为 endToken 前面一个位置是 \ 转义字符，所以忽略 \
+            // 添加 [offset, end - offset - 1] 和 endToken 的内容，添加到 builder 中
             expression.append(src, offset, end - offset - 1).append(closeToken);
+            // 修改 offset
             offset = end + closeToken.length();
+            // 继续，寻找结束的 closeToken 的位置
             end = text.indexOf(closeToken, offset);
           } else {
+            // 添加 [offset, end - offset] 的内容，添加到 builder 中
             expression.append(src, offset, end - offset);
             break;
           }
         }
+        // 拼接内容
         if (end == -1) {
           // close token was not found.
+          // closeToken 未找到，直接拼接
           builder.append(src, start, src.length - start);
+          // 修改 offset
           offset = src.length;
         } else {
+          // <x> closeToken 找到，将 expression 提交给 handler 处理 ，并将处理结果添加到 builder 中
           builder.append(handler.handleToken(expression.toString()));
+          // 修改 offset
           offset = end + closeToken.length();
         }
       }
+      // 继续，寻找开始的 openToken 的位置
       start = text.indexOf(openToken, offset);
     } while (start > -1);
+    // 拼接剩余的部分
     if (offset < src.length) {
       builder.append(src, offset, src.length - offset);
     }
