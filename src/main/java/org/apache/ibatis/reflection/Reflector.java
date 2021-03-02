@@ -49,6 +49,9 @@ import org.apache.ibatis.reflection.property.PropertyNamer;
  */
 public class Reflector {
 
+  /**
+   * 对应的类
+   */
   private final Class<?> type;
   private final String[] readablePropertyNames;
   private final String[] writablePropertyNames;
